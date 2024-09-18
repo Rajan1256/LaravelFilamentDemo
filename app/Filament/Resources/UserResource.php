@@ -17,6 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -44,7 +45,7 @@ class UserResource extends Resource
                 ->searchable()
                 ->required(),*/
 
-                    TextInput::make('password')->password()->visibleOn('create')->required(),
+                    TextInput::make('password')->password()->dehydrateStateUsing(fn ($state) => Hash::make($state))->visibleOn('create')->required(),
                     FileUpload::make('profile_image')->disk('public')->directory('profileImages')->columnSpan(2),
                 ])->columns(2)
             ])->columns(2);
