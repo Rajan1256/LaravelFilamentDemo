@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Livewire\Login;
+use App\Livewire\Dashboard;
+use App\Livewire\Logout;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->to('/login');
+});
+
+Route::group(['middleware'=>'guest'], function(){
+    Route::get('/login', Login::class)->name('login');
+});
+
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('quotes/data', [Dashboard::class, 'datatable'])->name('quotes.data');
+    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/logout', Logout::class)->name('logout');
 });
