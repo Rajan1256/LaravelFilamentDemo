@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Yajra\DataTables\DataTables;
 use App\Models\Quote;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
@@ -15,7 +16,7 @@ class Dashboard extends Component
 
     public function datatable()
     {
-        return DataTables::of(Quote::query())
+        return DataTables::of(Quote::where('user_id',Auth::user()->id)->where('published',1))
             ->addColumn('thumbnail', function ($quote) {
                 $thumbnailUrl = asset('storage/' . $quote->thumbnail); 
                 return '<img src="' . $thumbnailUrl . '" width="100">';
