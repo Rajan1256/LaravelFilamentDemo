@@ -15,6 +15,10 @@ use App\Livewire\Logout;
 |
 */
 
+Route::get('/user-list', function () {
+    return view('welcome');
+});
+
 Route::get('/', function () {
     return redirect()->to('/login');
 });
